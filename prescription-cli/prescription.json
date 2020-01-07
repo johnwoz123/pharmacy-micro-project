@@ -1,0 +1,9 @@
+{
+  "description": "a pain reliever and a fever reducer. Tylenol is used to treat many conditions such as headache, muscle aches, arthritis, backache, toothaches, colds, and fevers.",
+  "amount": 500,
+  "pharmacies": [
+    { "pharmacist_id": "pharm1", "user_id": "user1", "pharmacy_location": "Atlanta, Georgia" },
+    { "pharmacist_id": "pharm2", "user_id": "user1", "pharmacy_location": "Boston, Massachusetts" },
+    { "pharmacist_id": "pharm5", "user_id": "user1", "pharmacy_location": "Orlando, Florida" }
+  ]
+}

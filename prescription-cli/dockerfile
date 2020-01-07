@@ -1,0 +1,9 @@
+FROM alpine:latest
+
+RUN mkdir /app
+WORKDIR /app
+
+ADD prescription.json /app/prescription.json
+ADD prescription-cli /app/prescription-cli
+
+CMD ["./prescription-cli"]
