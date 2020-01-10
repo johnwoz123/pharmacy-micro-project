@@ -1,9 +1,36 @@
+# FROM alpine:latest
+#
+# RUN mkdir /app
+# WORKDIR /app
+#
+# ADD prescription.json /app/prescription.json
+# ADD prescription-cli /app/prescription-cli
+#
+# CMD ["./prescription-cli"]
+FROM golang:alpine as builder
+
+RUN apk --no-cache add git
+
+WORKDIR /app/prescription-cli
+
+COPY . .
+
+RUN go mod download
+
+# Build binary
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o prescription-cli
+
+# SECOND STAGE
 FROM alpine:latest
+
+# Security related package, good to have.
+RUN apk --no-cache add ca-certificates
 
 RUN mkdir /app
 WORKDIR /app
 
 ADD prescription.json /app/prescription.json
-ADD prescription-cli /app/prescription-cli
+
+COPY --from=builder /app/prescription-cli/prescription-cli .
 
 CMD ["./prescription-cli"]

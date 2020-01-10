@@ -1,0 +1,25 @@
+FROM golang:alpine as builder
+
+RUN apk --no-cache add git
+
+WORKDIR /app/distribution-service
+
+COPY . .
+
+RUN go mod download
+
+# Build binary
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o distribution-service
+
+# SECOND STAGE
+FROM alpine:latest
+
+# Security related package, good to have.
+RUN apk --no-cache add ca-certificates
+
+RUN mkdir /app
+WORKDIR /app
+
+COPY --from=builder /app/distribution-service/distribution-service .
+
+CMD ["./distribution-service"]

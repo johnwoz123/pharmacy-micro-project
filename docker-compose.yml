@@ -1,0 +1,20 @@
+version: '3.1'
+
+services:
+  prescription-cli:
+    build: ./prescription-cli
+
+  prescription-service:
+    build: ./prescription-service
+    ports:
+      - 50051:50051
+    environment:
+      MICRO_ADDRESS: ":50051"
+      DB_HOST: "datastore:27017"
+
+  distribution-service:
+    build: ./distribution-service
+    ports:
+      - 50052:50051
+    environment:
+      MICRO_ADDRESS: ":50051"

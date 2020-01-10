@@ -1,8 +1,25 @@
+FROM golang:alpine as builder
+
+RUN apk --no-cache add git
+
+WORKDIR /app/prescription-service
+
+COPY . .
+
+RUN go mod download
+
+# Build binary
+RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o prescription-service
+
+# SECOND STAGE
 FROM alpine:latest
+
+# Security related package, good to have.
+RUN apk --no-cache add ca-certificates
 
 RUN mkdir /app
 WORKDIR /app
 
-ADD prescription-service /app/prescription-service
+COPY --from=builder /app/prescription-service/prescription-service .
 
 CMD ["./prescription-service"]

@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package pharmacy;
+
+service DistributionService {
+    rpc FindAvailableCarrier (Requirements) returns (Response) {
+    }
+}
+
+message Distributor {
+    string id = 1;
+    int64 capacity = 2;
+    int64 max_load = 3;
+    string car_make = 4;
+    string car_model = 5;
+    string name = 6;
+    string carrier_id = 7;
+    bool available_for_transport = 8;
+}
+
+message Requirements {
+    int64 capacity = 1;
+    int64 max_load = 2;
+    string car_make = 3;
+    string car_model = 4;
+}
+
+message Response {
+    Distributor distributor = 1;
+    repeated Distributor distributors = 2;
+}
+
+
+message GetRequest {
+}
